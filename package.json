@@ -23,7 +23,7 @@
         "eslint": "^9.8.0",
         "eslint-plugin-vue": "^9.27.0",
         "file-loader": "^6.2.0",
-        "nyx-webpack-plugin": "github:odier-xyz/nyx-webpack-plugin",
+        "nyx-webpack-plugin": "github:nyxlib/nyx-webpack-plugin",
         "style-loader": "^4.0.0",
         "terser-webpack-plugin": "^5.3.10",
         "vue-loader": "^17.4.2",
