@@ -92,12 +92,12 @@ const renderWaterfall = () => {
 
     const area = chart.chartArea;
 
-    const dpr = chart.currentDevicePixelRatio || window.devicePixelRatio || 1;
+    const dpr = window.devicePixelRatio || 1.0;
 
-    const top = (Math.floor(area.top) + 1) * dpr;
-    const left = (Math.floor(area.left) + 1) * dpr;
-    const width = (Math.floor(area.width) - 1) * dpr;
-    const height = (Math.floor(area.height) - 1) * dpr;
+    const top = Math.round(area.top * dpr) + Math.round(dpr);
+    const left = Math.round(area.left * dpr) + Math.round(dpr);
+    const width = Math.round(area.width * dpr) - Math.round(dpr);
+    const height = Math.round(area.height * dpr) - Math.round(dpr);
 
     /*----------------------------------------------------------------------------------------------------------------*/
 
