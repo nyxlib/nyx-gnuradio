@@ -146,17 +146,17 @@ const renderWaterfall = () => {
 
 const callback = (data) => {
 
-    const array1 = decodeFloat32(data.samp_rate);
+    const array1 = decodeFloat32(data['0f0ef2c0']);
     if(array1.length === 1) {
         state.samp_rate = array1[0];
     }
 
-    const array2 = decodeFloat32(data.frequency);
+    const array2 = decodeFloat32(data['1551e55f']);
     if(array2.length === 1) {
         state.frequency = array2[0];
     }
 
-    const array3 = decodeFloat32(data.samples);
+    const array3 = decodeFloat32(data['0092418b']);
     if(array3.length > 0) {
 
         buffer.push(array3.slice());
