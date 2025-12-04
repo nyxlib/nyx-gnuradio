@@ -101,17 +101,17 @@ for(const variable of props.variables1)
 {
     callbacks[variable] = (data) => {
 
-        const array1 = decodeFloat32(data['0f0ef2c0']);
+        const array1 = decodeFloat32(data[0x0F0EF2C0]);
         if(array1.length === 1) {
             state.samp_rate = array1[0];
         }
 
-        const array2 = decodeFloat32(data['1551e55f']);
+        const array2 = decodeFloat32(data[0x1551E55F]);
         if(array2.length === 1) {
             state.frequency = array2[0];
         }
 
-        const array3 = decodeFloat32(data['0092418b']);
+        const array3 = decodeFloat32(data[0x0092418B]);
         if(array3.length > 0) {
             state.datasets[variable] = array3;
             updatePlot();
