@@ -35,7 +35,7 @@ const state = reactive({
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const canvasRef = ref(null);
+const canvasEl = ref(null);
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -101,7 +101,7 @@ const renderWaterfall = () => {
 
     /*----------------------------------------------------------------------------------------------------------------*/
 
-    const ctx = canvasRef.value.getContext('2d');
+    const ctx = canvasEl.value.getContext('2d');
 
     const image = ctx.createImageData(width, height);
 
@@ -172,7 +172,7 @@ const callback = (data) => {
 
 onMounted(() => {
 
-    chart = new ChartJS(canvasRef.value.getContext('2d'), {
+    chart = new ChartJS(canvasEl.value.getContext('2d'), {
         type: 'scatter',
         data: {datasets: []},
         options: {
@@ -245,7 +245,7 @@ onUnmounted(() => {
 
     <!-- *********************************************************************************************************** -->
 
-    <canvas class="h-100 w-100" ref="canvasRef"></canvas>
+    <canvas class="h-100 w-100" ref="canvasEl"></canvas>
 
     <!-- *********************************************************************************************************** -->
 

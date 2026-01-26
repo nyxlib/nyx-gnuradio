@@ -36,7 +36,7 @@ const state = reactive({
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const canvasRef = ref(null);
+const canvasEl = ref(null);
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -123,7 +123,7 @@ for(const variable of props.variables1)
 
 onMounted(() => {
 
-    chart = new ChartJS(canvasRef.value.getContext('2d'), {
+    chart = new ChartJS(canvasEl.value.getContext('2d'), {
         type: 'line',
         data: {
             labels: [],
@@ -202,7 +202,7 @@ onUnmounted(() => {
 
     <!-- *********************************************************************************************************** -->
 
-    <canvas class="h-100 w-100" ref="canvasRef"></canvas>
+    <canvas class="h-100 w-100" ref="canvasEl"></canvas>
 
     <!-- *********************************************************************************************************** -->
 
