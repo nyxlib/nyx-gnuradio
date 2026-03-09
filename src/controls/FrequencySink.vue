@@ -165,10 +165,10 @@ onMounted(() => {
                         text: props.options['x-axis-label']
                     },
                     ticks: {
-                        color: textColor,
+                        color: textColor
                     },
                     grid: {
-                        color: borderColor,
+                        color: borderColor
                     }
                 },
                 y: {
@@ -180,10 +180,10 @@ onMounted(() => {
                         text: props.options['y-axis-label']
                     },
                     ticks: {
-                        color: textColor,
+                        color: textColor
                     },
                     grid: {
-                        color: borderColor,
+                        color: borderColor
                     }
                 }
             },

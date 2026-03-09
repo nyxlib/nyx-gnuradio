@@ -180,6 +180,8 @@ onMounted(() => {
 
     const textColor = getCssVar('--bs-body-color');
 
+    const borderColor = getCssVar('--bs-border-color');
+
     /*----------------------------------------------------------------------------------------------------------------*/
 
     chartInstance = new ChartJS(canvasEl.value.getContext('2d'), {
@@ -211,6 +213,9 @@ onMounted(() => {
                     ticks: {
                         reverse: false,
                         color: textColor
+                    },
+                    grid: {
+                        color: borderColor
                     }
                 },
                 y: {
@@ -224,6 +229,9 @@ onMounted(() => {
                     ticks: {
                         reverse: true,
                         color: textColor
+                    },
+                    grid: {
+                        color: borderColor
                     }
                 }
             },
