@@ -1,7 +1,7 @@
 <script setup>
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import {ref, inject, reactive, onMounted, onUnmounted, nextTick} from 'vue';
+import {ref, inject, reactive, onMounted, onUnmounted} from 'vue';
 
 import ChartJS from 'chart.js/auto';
 
