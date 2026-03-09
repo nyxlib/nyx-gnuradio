@@ -39,6 +39,10 @@ const canvasEl = ref(null);
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+const getCssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const decodeFloat32 = (u8) => {
 
     const aligned = new Uint8Array(u8.length);
@@ -79,7 +83,7 @@ const scaleDB = (value, min, max) => {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let chart = null;
+let chartInstance = null;
 
 const renderWaterfall = () => {
 
@@ -90,7 +94,7 @@ const renderWaterfall = () => {
 
     /*----------------------------------------------------------------------------------------------------------------*/
 
-    const area = chart.chartArea;
+    const area = chartInstance.chartArea;
 
     const dpr = window.devicePixelRatio || 1.0;
 
@@ -172,13 +176,19 @@ const callback = (data) => {
 
 onMounted(() => {
 
-    chart = new ChartJS(canvasEl.value.getContext('2d'), {
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    const textColor = getCssVar('--bs-body-color');
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    chartInstance = new ChartJS(canvasEl.value.getContext('2d'), {
         type: 'scatter',
         data: {datasets: []},
         options: {
+            animation: false,
             responsive: true,
             maintainAspectRatio: false,
-            animation: false,
             elements: {
                 line: {
                     tension: 0,
@@ -195,7 +205,12 @@ onMounted(() => {
                     type: 'linear',
                     title: {
                         display: true,
+                        color: textColor,
                         text: props.options['x-axis-label']
+                    },
+                    ticks: {
+                        reverse: false,
+                        color: textColor
                     }
                 },
                 y: {
@@ -203,10 +218,12 @@ onMounted(() => {
                     max: WATERFALL_HEIGHT,
                     title: {
                         display: true,
+                        color: textColor,
                         text: props.options['y-axis-label']
                     },
                     ticks: {
-                        reverse: true
+                        reverse: true,
+                        color: textColor
                     }
                 }
             },
@@ -224,18 +241,32 @@ onMounted(() => {
         }
     });
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     console.log('Hello from Waterfall Sink');
 
     nss.register(props.variables1[0], callback);
+
+    /*----------------------------------------------------------------------------------------------------------------*/
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 onUnmounted(() => {
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     console.log('Bye from Waterfall Sink');
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     nss.unregister(props.variables1[0], callback);
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    chartInstance?.destroy();
+
+    /*----------------------------------------------------------------------------------------------------------------*/
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/

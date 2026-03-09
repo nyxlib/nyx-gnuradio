@@ -40,6 +40,10 @@ const canvasEl = ref(null);
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+const getCssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const decodeFloat32 = (u8) => {
 
     const aligned = new Uint8Array(u8.length);
@@ -51,11 +55,11 @@ const decodeFloat32 = (u8) => {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let chart = null;
+let chartInstance = null;
 
 const updatePlot = () => {
 
-    if(chart)
+    if(chartInstance)
     {
         /*------------------------------------------------------------------------------------------------------------*/
 
@@ -74,20 +78,20 @@ const updatePlot = () => {
 
         const startFreq = state.frequency - state.samp_rate / 2.0;
 
-        chart.data.labels = Array.from({length: n}, (_, i) => startFreq + i * df);
+        chartInstance.data.labels = Array.from({length: n}, (_, i) => startFreq + i * df);
 
         /*------------------------------------------------------------------------------------------------------------*/
 
-        chart.options.scales.x.min = startFreq + 0.0000000000000;
-        chart.options.scales.x.max = startFreq + state.samp_rate;
+        chartInstance.options.scales.x.min = startFreq + 0.0000000000000;
+        chartInstance.options.scales.x.max = startFreq + state.samp_rate;
 
-        chart.data.datasets = Object.keys(state.datasets).filter((variable) => props.enabled[variable]).map((variable) => ({
+        chartInstance.data.datasets = Object.keys(state.datasets).filter((variable) => props.enabled[variable]).map((variable) => ({
             label: variable,
             data: state.datasets[variable],
             borderWidth: 1,
         }));
 
-        chart.update('none');
+        chartInstance.update('none');
 
         /*------------------------------------------------------------------------------------------------------------*/
     }
@@ -123,16 +127,24 @@ for(const variable of props.variables1)
 
 onMounted(() => {
 
-    chart = new ChartJS(canvasEl.value.getContext('2d'), {
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    const textColor = getCssVar('--bs-body-color');
+
+    const borderColor = getCssVar('--bs-border-color');
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    chartInstance = new ChartJS(canvasEl.value.getContext('2d'), {
         type: 'line',
         data: {
             labels: [],
             datasets: []
         },
         options: {
+            animation: false,
             responsive: true,
             maintainAspectRatio: false,
-            animation: false,
             elements: {
                 line: {
                     tension: 0,
@@ -149,16 +161,30 @@ onMounted(() => {
                     type: 'linear',
                     title: {
                         display: true,
+                        color: textColor,
                         text: props.options['x-axis-label']
                     },
+                    ticks: {
+                        color: textColor,
+                    },
+                    grid: {
+                        color: borderColor,
+                    }
                 },
                 y: {
                     min: props.options['y-min'],
                     max: props.options['y-max'],
                     title: {
                         display: true,
+                        color: textColor,
                         text: props.options['y-axis-label']
                     },
+                    ticks: {
+                        color: textColor,
+                    },
+                    grid: {
+                        color: borderColor,
+                    }
                 }
             },
             plugins: {
@@ -175,24 +201,38 @@ onMounted(() => {
         }
     });
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     console.log('Hello from Frequency Sink');
 
     for(const variable of props.variables1)
     {
         nss.register(variable, callbacks[variable]);
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 onUnmounted(() => {
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     console.log('Bye from Frequency Sink');
+
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     for(const variable of props.variables1)
     {
         nss.unregister(variable, callbacks[variable]);
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    chartInstance?.destroy();
+
+    /*----------------------------------------------------------------------------------------------------------------*/
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
